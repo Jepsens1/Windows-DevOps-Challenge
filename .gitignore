@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+
+# Default output directory
+[Dd]ist/
+
 # dotenv files
 .env
 
