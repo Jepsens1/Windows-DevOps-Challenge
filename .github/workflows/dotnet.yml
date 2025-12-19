@@ -48,16 +48,16 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: logs-and-pester-results
+        name: logs-and-test-results
         path: logs/
         
     - name: Unit test report
       uses: dorny/test-reporter@v2
       if: always()
       with:
-        artifact: test-results
+        artifact: logs-and-test-results
         name: MSTest Tests
-        path: logs/*.trx
+        path: '*.trx'
         reporter: dotnet-trx
     
     - name: Cleanup workspace
