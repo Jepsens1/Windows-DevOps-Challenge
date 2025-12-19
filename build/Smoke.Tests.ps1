@@ -5,7 +5,7 @@ Describe "Application Smoke Tests" {
 
         $baseUrl = "http://$($config.Host):$($config.Port)"
         $endpoint = "$($baseUrl)$($config.EndpointPath)"
-        $logDirectory = Join-Path -Path $PSScriptRoot -ChildPath "..\$($config.LogDirectory)" | Resolve-Path
+        $logDirectory = Join-Path -Path $PSScriptRoot -ChildPath "../$($config.LogDirectory)" | Resolve-Path
 
     }
     Context "Port Accessibility" {
@@ -29,6 +29,7 @@ Describe "Application Smoke Tests" {
         }
         It "At least one non-empty log file exists" {
             $logFiles = Get-ChildItem -Path $logDirectory -Filter "*.txt" -Recurse | Where-Object { $_.Length -gt 0 }
+
             $logFiles | Should -Not -BeNullOrEmpty
         }
     }
