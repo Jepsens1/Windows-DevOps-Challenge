@@ -11,7 +11,10 @@ param(
 	#Mandatory parameter to define where to look Windows Service file
 	[Parameter(Mandatory = $false, HelpMessage = "Directory PATH to .exe or .dll service. Default (dist)")]
 	[ValidateNotNullOrWhiteSpace()]
-	[string]$OutputDirectory = "dist"
+	[string]$OutputDirectory = "dist",
+
+	[Parameter(Mandatory = $false, HelpMessage = "Name of the service")]
+    [string]$ServiceName = "Windows DevOps Challenge"
 )
 
 # Ensure script stops in case of errors
@@ -20,6 +23,7 @@ $ErrorActionPreference = "Stop"
 # Define Path variables
 $rootDir = Split-Path -Path $PSScriptRoot -Parent
 $outputDir = Join-Path $rootDir $OutputDirectory
+$logsDir = Join-Path $rootDir "logs"
 $serviceFileLocation = Join-Path $outputDir $ServiceFile
 
 Write-Host -ForegroundColor Blue "### Validate $($serviceFileLocation) exist ###"
@@ -28,10 +32,32 @@ if (-not (Test-Path $serviceFileLocation))
 	throw "The provided $($serviceFileLocation) does not exist`n Check that $($serviceFileLocation) is spelled correct"
 }
 
-# Register Service 
-sc.exe create "Windows DevOps Challenge" binpath=$serviceFileLocation
+# Check & Remove old service
+Write-Host -ForegroundColor Blue "Checking if service $($ServiceName) already exists..."
 
-# Start Service
-sc.exe start "Windows DevOps Challenge"
+$existingService = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 
-Write-Host -ForegroundColor Green "### Windows DevOps Challenge service is running ###"
+if ($existingService)
+{
+Write-Host -ForegroundColor Yellow "Service $($ServiceName) already exists - stopping & removing it now..."
+if ($existingService.Status -eq 'Running') {
+
+Stop-Service -Name $ServiceName -Force
+Write-Host -ForegroundColor Green "Service stopped"	
+}
+
+Remove-Service -Name $ServiceName
+Write-Host -ForegroundColor Green "Old service removed"
+} else {
+
+	Write-Host -ForegroundColor Blue "No existing service found"
+}
+
+# Create & start new service
+Write-Host -ForegroundColor Blue "Creating new service..."
+New-Service -Name $ServiceName -BinaryPathName "$($serviceFileLocation) --log-dir $($logsDir)"
+
+Write-Host -ForegroundColor Blue "Starting service..."
+Start-Service -Name $ServiceName
+
+Write-Host -ForegroundColor Green "### $($ServiceName) service is running ###"

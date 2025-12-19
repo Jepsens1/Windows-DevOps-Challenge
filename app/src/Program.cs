@@ -34,10 +34,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         // Enable option to deploy this project as windows service
-        builder.Services.AddWindowsService(options =>
-        {
-            options.ServiceName = "Windows DevOps Challenge";
-        });
+        builder.Services.AddWindowsService(options =>{});
 
         builder.Services.AddControllers();
 
