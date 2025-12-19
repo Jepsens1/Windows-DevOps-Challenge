@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 jobs:
   build-and-publish:
@@ -23,12 +27,12 @@ jobs:
     - name: Build
       shell: pwsh
       run: |
-        pwsh build/build.ps1 -Configuration Release -ProjectName app.csproj
+        pwsh build/build.ps1 -Configuration Release -ProjectName App.Api/app.csproj
 
     - name: Test
       shell: pwsh
       run: |
-        pwsh build/test.ps1 -Configuration Release -ProjectName app.csproj
+        pwsh build/test.ps1 -Configuration Release -ProjectName App.Test/App.Test.csproj
 
     - name: Create and run windows service
       shell: pwsh
@@ -46,6 +50,14 @@ jobs:
       with:
         name: logs-and-pester-results
         path: logs/
+        
+    - name: Unit test report
+      uses: dorny/test-reporter@v2
+      with:
+        artifact: test-results
+        name: MSTest Tests
+        path: logs/*.trx
+        reporter: dotnet-trx
     
     - name: Cleanup workspace
       if: always()
