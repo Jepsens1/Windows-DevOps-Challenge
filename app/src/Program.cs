@@ -1,7 +1,6 @@
 
 using Microsoft.AspNetCore.Builder;
 using Serilog;
-using System.Reflection;
 namespace app;
 
 public class Program
@@ -9,7 +8,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddHostedService<Worker>();
+        builder.Services.AddHostedService<WindowsBackgroundService>();
 
 
         // Setup Serilog
