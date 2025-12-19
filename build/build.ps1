@@ -44,10 +44,14 @@ if (-not (Test-Path $projectDir))
 # Start by clean project, to ensure consistent builds and clean starting point
 # Clean project with the provided verbosity and configuration
 Write-Host -ForegroundColor Blue "### Cleaning dotnet $($projectName) ###"
-dotnet clean $projectDir --configuration $Configuration --verbosity $verbosity --output $outputDir
+dotnet clean $projectDir --configuration $Configuration --verbosity $verbosity
 
 # Build project with the provided verbosity and configuration
 Write-Host -ForegroundColor Blue "### Building dotnet $($projectName) ###"
-dotnet build $projectDir --configuration $Configuration --verbosity $verbosity --output $outputDir
+dotnet build $projectDir --configuration $Configuration --verbosity $verbosity
+
+# Publish project to a single executable
+Write-Host -ForegroundColor Blue "### Publish dotnet $($ProjectName) ###"
+dotnet publish $projectDir --output $outputDir --no-build --verbosity $verbosity --configuration $Configuration --no-self-contained
 
 Write-Host -ForegroundColor Green "### Done building project ###"
