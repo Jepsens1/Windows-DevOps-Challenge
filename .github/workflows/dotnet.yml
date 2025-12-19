@@ -38,7 +38,7 @@ jobs:
     - name: Run Smoke tests
       shell: pwsh
       run: |
-          Invoke-Pester build/Smoke.Tests.ps1 -OutputFile ../../logs/pester.xml -OutputFormat NUnitXml
+          Invoke-Pester build/Smoke.Tests.ps1 -OutputFile logs/pester.xml -OutputFormat NUnitXml
     
     - name: Upload logs and artifacts
       uses: actions/upload-artifact@v4
