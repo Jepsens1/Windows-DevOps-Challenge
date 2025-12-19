@@ -23,26 +23,26 @@ jobs:
     - name: Build
       shell: pwsh
       run: |
-        pwsh ../../build/build.ps1 -Configuration Release -ProjectName app.csproj
+        pwsh build/build.ps1 -Configuration Release -ProjectName app.csproj
 
     - name: Test
       shell: pwsh
       run: |
-        pwsh ../../build/test.ps1 -Configuration Release -ProjectName app.csproj
+        pwsh build/test.ps1 -Configuration Release -ProjectName app.csproj
 
     - name: Create and run windows service
       shell: pwsh
       run: |
-        pwsh ../../build/run.ps1 -ServiceFile app.exe
+        pwsh build/run.ps1 -ServiceFile app.exe
 
     - name: Run Smoke tests
       shell: pwsh
       run: |
-          Invoke-Pester ../../build/Smoke.Tests.ps1 -OutputFile ../../logs/pester.xml -OutputFormat NUnitXml
+          Invoke-Pester build/Smoke.Tests.ps1 -OutputFile ../../logs/pester.xml -OutputFormat NUnitXml
     
     - name: Upload logs and artifacts
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: logs-and-pester-results
-        path: ../../logs/
+        path: logs/
