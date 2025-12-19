@@ -41,7 +41,7 @@ jobs:
           Invoke-Pester ..\..\build\Smoke.Tests.ps1 -OutputFile ..\..\logs\pester.xml -OutputFormat NUnitXml
     
     - name: Upload logs and artifacts
-      uses: actions/upload-artifacts@v4
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: logs-and-pester-results
