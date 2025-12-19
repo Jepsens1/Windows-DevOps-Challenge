@@ -17,7 +17,7 @@ param(
 	#Option to define where to store test output, defaults to testresult
 	[Parameter(Mandatory = $false, HelpMessage = "Name of the directory to store test output. Folder will be created in root directory of the git repository")]
 	[ValidateNotNullOrEmpty()]
-	[string]$OutputDirectory = "testresult",
+	[string]$OutputDirectory = "logs",
 
 	#Option to enable verbosity output
 	[Parameter(Mandatory = $false, HelpMessage = "Verbose output from dotnet test")]
@@ -43,8 +43,7 @@ if (-not (Test-Path $projectDir))
 
 
 # Test project with the provided verbosity and configuration
-# Use --no-build flag that implies --no-restore, to not build and restore nuget packages before testing
 Write-Host -ForegroundColor Blue "### Perform unit test on $($projectName) ###"
-dotnet test $projectDir --output  $outputDir --no-build --no-restore --configuration $Configuration --verbosity $verbosity
+dotnet test $projectDir --logger trx --results-directory $outputDir --configuration $Configuration --verbosity $verbosity
 
 Write-Host -ForegroundColor Green "### Done unit test###"
