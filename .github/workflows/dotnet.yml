@@ -1,0 +1,48 @@
+name: CI|CD Windows DevOps Challenge
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-publish:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Build
+      shell: pwsh
+      run: |
+        pwsh ..\..\build\build.ps1 -Configuration Release -ProjectName app.csproj
+
+    - name: Test
+      shell: pwsh
+      run: |
+        pwsh ..\..\build\test.ps1 -Configuration Release -ProjectName app.csproj
+
+    - name: Create and run windows service
+      shell: pwsh
+      run: |
+        pwsh ..\..\build\run.ps1 -ServiceFile app.exe
+
+    - name: Run Smoke tests
+      shell: pwsh
+      run: |
+          Invoke-Pester ..\..\build\Smoke.Tests.ps1 -OutputFile ..\..\logs\pester.xml -OutputFormat NUnitXml
+    
+    - name: Upload logs and artifacts
+      uses: actions/upload-artifacts@v4
+      if: always()
+      with:
+        name: logs-and-pester-results
+        path: ../../logs/
