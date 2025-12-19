@@ -1,3 +1,7 @@
+# Ensure script is executed with PowerShell V8 and as Admin mode
+#requires -Version 7.0
+#requires -RunAsAdministrator
+
 Describe "Application Smoke Tests" {
     BeforeAll {
         $configFile = Join-Path $PSScriptRoot "TestConfig.psd1"
@@ -5,7 +9,8 @@ Describe "Application Smoke Tests" {
 
         $baseUrl = "http://$($config.Host):$($config.Port)"
         $endpoint = "$($baseUrl)$($config.EndpointPath)"
-        $logDirectory = Join-Path -Path $PSScriptRoot -ChildPath "../$($config.LogDirectory)" | Resolve-Path
+        $rootDir = Split-Path -Path $PSScriptRoot -Parent
+        $logDirectory = Join-Path -Path $rootDir "logs"
 
     }
     Context "Port Accessibility" {
@@ -28,8 +33,7 @@ Describe "Application Smoke Tests" {
             Test-Path -Path $logDirectory -PathType Container | Should -Be $true
         }
         It "At least one non-empty log file exists" {
-            $logFiles = Get-ChildItem -Path $logDirectory -Filter "*.txt" -Recurse | Where-Object { $_.Length -gt 0 }
-
+            $logFiles = Get-ChildItem -Path $logDirectory -Filter "*.$($config.LogFileExtension)" -Recurse | Where-Object { $_.Length -gt 0 }
             $logFiles | Should -Not -BeNullOrEmpty
         }
     }
