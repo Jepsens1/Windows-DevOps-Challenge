@@ -1,6 +1,7 @@
 name: CI|CD Windows DevOps Challenge
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
