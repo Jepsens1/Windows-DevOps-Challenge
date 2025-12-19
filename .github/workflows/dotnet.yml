@@ -53,6 +53,7 @@ jobs:
         
     - name: Unit test report
       uses: dorny/test-reporter@v2
+      if: always()
       with:
         artifact: test-results
         name: MSTest Tests
