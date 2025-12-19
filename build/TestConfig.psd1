@@ -10,7 +10,4 @@
 
     # Log PATH
     LogDirectory = 'logs'
-
-    # Log file extension
-    LogFileExtension = 'txt'
 }

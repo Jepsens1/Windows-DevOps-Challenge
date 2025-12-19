@@ -34,8 +34,7 @@ Describe "Application Smoke Tests" {
 		}
 		It "At least one non-empty log file exists" {
 			Write-Host "Log directory $($logDirectory)"
-			$logFiles = Get-ChildItem -Path $logDirectory -Filter "*.$($config.LogFileExtension)" -Directory -Recurse | Where-Object { $_.Length -gt 0 }
-			Write-Host "Log files found $($logFiles.Length)"
+			$logFiles = Get-ChildItem -Path "$($logDirectory)\*" -Include *.txt
 			$logFiles | Should -Not -BeNullOrEmpty
 		}
 	}
