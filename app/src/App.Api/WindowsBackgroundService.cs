@@ -2,6 +2,9 @@ namespace app;
 
 public sealed class WindowsBackgroundService(ILogger<WindowsBackgroundService> logger) : BackgroundService
 {
+    /// <summary>
+    /// Main loop runs until cancellation requested
+    /// </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
