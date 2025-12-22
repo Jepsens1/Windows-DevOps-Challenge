@@ -1,4 +1,30 @@
-# Ensure script is executed with PowerShell V8 and as Admin mode
+<#
+.SYNOPSIS
+Performs unit tests for the specified .NET project using `dotnet test`.
+
+.DESCRIPTION
+Validates project existence and runs `dotnet test` with the specified configuration. Test results are saved to the `$OutputDirectory` (default `logs`).
+
+.PARAMETER Configuration
+Test configuration to use: `Debug` or `Release`.
+
+.PARAMETER ProjectName
+Name of the project directory (for example `App.Test`) containing the tests.
+
+.PARAMETER OutputDirectory
+Directory to store test results (default `logs`).
+
+.PARAMETER VerboseOutput
+Switch to enable detailed dotnet CLI verbosity for tests.
+
+.EXAMPLE
+.
+\build\test.ps1 -Configuration Debug -ProjectName App.Test -OutputDirectory logs
+
+.NOTES
+Requires PowerShell 7+ and dotnet SDK installed.
+#>
+# Ensure script is executed with PowerShell V7 and as Admin mode
 #requires -Version 7.0
 #requires -RunAsAdministrator
 

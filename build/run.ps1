@@ -1,4 +1,30 @@
-# Ensure script is executed with PowerShell V8 and as Admin mode
+<#
+.SYNOPSIS
+Installs and starts the Windows service using the provided executable or DLL.
+
+.DESCRIPTION
+Validates the presence of the specified service binary in `$OutputDirectory`
+Removes any existing service with the same name, creates a new Windows service pointing to the binary and starts it.
+The service's binary path includes a `--log-dir` argument to point logs to the repository `logs` folder.
+
+.PARAMETER ServiceFile
+Name of the executable or DLL to run as a service (e.g., `App.Api.exe`).
+
+.PARAMETER OutputDirectory
+Directory where the service binary resides (default `dist`).
+
+.PARAMETER ServiceName
+Name used when creating the Windows service. Default: `Windows DevOps Challenge`.
+
+.EXAMPLE
+.
+\build\run.ps1 -ServiceFile App.Api.exe -OutputDirectory dist -ServiceName "Windows DevOps Challenge"
+
+.NOTES
+Requires administrative privileges to create and start Windows services.
+#>
+
+# Ensure script is executed with PowerShell V7 and as Admin mode
 #requires -Version 7.0
 #requires -RunAsAdministrator
 

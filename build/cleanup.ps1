@@ -1,4 +1,23 @@
-# Ensure script is executed with PowerShell V8 and as Admin mode
+<#
+.SYNOPSIS
+Stops and removes a Windows service (if present) and cleans the working tree.
+
+.DESCRIPTION
+Stops the specified Windows service and removes it from the system. Afterwards, performs a destructive `git clean -ffdx` 
+To remove untracked files and directories so the repository is in a clean state.
+
+.PARAMETER ServiceName
+Optional name of the Windows service to stop and remove. Default: `Windows DevOps Challenge`.
+
+.EXAMPLE
+.
+\build\cleanup.ps1 -ServiceName "Windows DevOps Challenge"
+
+.NOTES
+`git clean -ffdx` is destructive and will permanently remove untracked files and directories — use with caution.
+#>
+
+# Ensure script is executed with PowerShell V7 and as Admin mode
 #requires -Version 7.0
 #requires -RunAsAdministrator
 

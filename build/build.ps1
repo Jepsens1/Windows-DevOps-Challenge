@@ -1,4 +1,33 @@
-# Ensure script is executed with PowerShell V8 and as Admin mode
+<#
+.SYNOPSIS
+Builds the specified .NET project and publishes the output to a directory.
+
+.DESCRIPTION
+Validates that the target project exists, runs `dotnet clean`, `dotnet build`, and `dotnet publish`
+with the provided configuration and verbosity. The published output is placed in `$OutputDirectory` (defaults to `dist`).
+
+.PARAMETER Configuration
+Build configuration to use: `Debug` or `Release`.
+
+.PARAMETER ProjectName
+Name of the project directory (for example `App.Api`) to build and publish.
+
+.PARAMETER OutputDirectory
+Directory to place published artifacts (created under repository root if absent). Default: `dist`.
+
+.PARAMETER VerboseOutput
+Switch to enable detailed dotnet CLI verbosity.
+
+.EXAMPLE
+.
+\build\build.ps1 -Configuration Release -ProjectName App.Api -OutputDirectory dist
+
+.NOTES
+Requires PowerShell 7+ and require administrative privileges depending on environment.
+And dotnet SDK installed
+#>
+
+# Ensure script is executed with PowerShell V7 and as Admin mode
 #requires -Version 7.0
 #requires -RunAsAdministrator
 
