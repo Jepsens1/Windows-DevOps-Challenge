@@ -1,3 +1,4 @@
+[![CI|CD Windows DevOps Challenge](https://github.com/Jepsens1/Windows-DevOps-Challenge/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/Jepsens1/Windows-DevOps-Challenge/actions/workflows/dotnet.yml)
 # Windows DevOps Challenge
 
 ## Description
