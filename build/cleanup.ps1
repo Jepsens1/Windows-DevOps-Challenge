@@ -30,17 +30,19 @@ param(
 $ErrorActionPreference = "Stop"
 
 
-# 1. Stop Service
+# 1. Stop Service - attempt to get the service; silence error if service not present
 $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 
 if ($service) {
     Write-Host -ForegroundColor Blue "Stopping & removing $($ServiceName)"
     if ($service.Status -eq 'Running') {
 
+        # Force stop if still running
         Stop-Service -Name $ServiceName -Force
-        Write-Host -ForegroundColor Green "Service stopped"	
+        Write-Host -ForegroundColor Green "Service stopped"    
     }
 
+    # Remove the service registration from the system
     Remove-Service -Name $ServiceName
     Write-Host -ForegroundColor Green "Service removed"
 }

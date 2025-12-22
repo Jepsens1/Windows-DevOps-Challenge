@@ -56,30 +56,38 @@ param(
 # Ensure script stops in case of errors from dotnet cli
 $ErrorActionPreference = "Stop"
 
-# Define Path variables
+# Define Path variables (repository root, target project path and output folder)
 $rootDir = Split-Path -Path $PSScriptRoot -Parent
 $projectDir = Join-Path -Path $rootDir "app/src/$($ProjectName)"
 $outputDir = Join-Path $rootDir $OutputDirectory
 
-# Sets verbosity level
+# Sets verbosity level used by dotnet CLI (normal | detailed)
 $verbosity = $VerboseOutput ? "detailed" : "normal"
 
+# Validate the project path exists before invoking dotnet commands
 Write-Host -ForegroundColor Blue "### Validate $($projectDir) exist ###"
 if (-not (Test-Path $projectDir))
 {
 	throw "The provided $($ProjectName) does not exist`n Check that $($ProjectName) is spelled correct"
 }
 
-# Start by clean project, to ensure consistent builds and clean starting point
+# Use dotnet commands to ensure a deterministic publish
+# - dotnet clean: remove previous build artifacts
+# - dotnet build: compile project with selected configuration
+# - dotnet publish: create publishable artifacts in $OutputDirectory
+
+
+# Start by cleaning the project to ensure consistent builds and a clean starting point
 # Clean project with the provided verbosity and configuration
 Write-Host -ForegroundColor Blue "### Cleaning dotnet $($projectName) ###"
 dotnet clean $projectDir --configuration $Configuration --verbosity $verbosity
 
 # Build project with the provided verbosity and configuration
+# Builds the project but does not yet produce the final publish artifact
 Write-Host -ForegroundColor Blue "### Building dotnet $($projectName) ###"
 dotnet build $projectDir --configuration $Configuration --verbosity $verbosity
 
-# Publish project to a single executable
+# Publish project to output directory.
 Write-Host -ForegroundColor Blue "### Publish dotnet $($ProjectName) ###"
 dotnet publish $projectDir --output $outputDir --no-build --verbosity $verbosity --configuration $Configuration --no-self-contained
 

@@ -58,9 +58,10 @@ $rootDir = Split-Path -Path $PSScriptRoot -Parent
 $projectDir = Join-Path -Path $rootDir "app/src/$($ProjectName)"
 $outputDir = Join-Path $rootDir $OutputDirectory
 
-# Sets verbosity level
+# Sets verbosity level for dotnet test (normal | detailed)
 $verbosity = $VerboseOutput ? "detailed" : "normal"
 
+# Ensure target project directory exists
 Write-Host -ForegroundColor Blue "### Validate $($projectDir) exist ###"
 if (-not (Test-Path $projectDir))
 {
@@ -68,7 +69,7 @@ if (-not (Test-Path $projectDir))
 }
 
 
-# Test project with the provided verbosity and configuration
+# Run unit tests and write results as TRX to the $OutputDirectory
 Write-Host -ForegroundColor Blue "### Perform unit test on $($projectName) ###"
 dotnet test $projectDir --logger "trx;LogFileName=unitResults.trx" --results-directory $outputDir --configuration $Configuration --verbosity $verbosity
 

@@ -46,12 +46,13 @@ param(
 # Ensure script stops in case of errors
 $ErrorActionPreference = "Stop"
 
-# Define Path variables
+# Define Path variables (resolve repository root, the target output directory and a logs path)
 $rootDir = Split-Path -Path $PSScriptRoot -Parent
 $outputDir = Join-Path $rootDir $OutputDirectory
 $logsDir = Join-Path $rootDir "logs"
 $serviceFileLocation = Join-Path $outputDir $ServiceFile
 
+# Validate the service binary exists before trying to create a Windows service
 Write-Host -ForegroundColor Blue "### Validate $($serviceFileLocation) exist ###"
 if (-not (Test-Path $serviceFileLocation))
 {
@@ -65,15 +66,17 @@ $existingService = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 
 if ($existingService)
 {
-Write-Host -ForegroundColor Yellow "Service $($ServiceName) already exists - stopping & removing it now..."
-if ($existingService.Status -eq 'Running') {
+    Write-Host -ForegroundColor Yellow "Service $($ServiceName) already exists - stopping & removing it now..."
+    if ($existingService.Status -eq 'Running') {
 
-Stop-Service -Name $ServiceName -Force
-Write-Host -ForegroundColor Green "Service stopped"	
-}
+        # Stop the running service to allow removal
+        Stop-Service -Name $ServiceName -Force
+        Write-Host -ForegroundColor Green "Service stopped"    
+    }
 
-Remove-Service -Name $ServiceName
-Write-Host -ForegroundColor Green "Old service removed"
+    # Remove the old service registration so we can create a new one
+    Remove-Service -Name $ServiceName
+    Write-Host -ForegroundColor Green "Old service removed"
 } else {
 
 	Write-Host -ForegroundColor Blue "No existing service found"

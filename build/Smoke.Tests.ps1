@@ -35,6 +35,7 @@ Describe "Application Smoke Tests" {
 
 	Context "Health Endpoint" {
 
+		# Ensure the health endpoint returns HTTP 200 (application up and serving requests)
 		It "GET $($endpoint) returns HTTP 200" {
 			$response = Invoke-WebRequest -Uri $endpoint -Method Get -UseBasicParsing -ErrorAction Stop
 			$response.StatusCode | Should -Be 200
@@ -42,6 +43,7 @@ Describe "Application Smoke Tests" {
 	}
 
 	Context "Logging" {
+		# Verify logs are being written to the expected directory
 		It "Log directory exists at $($logDirectory)" {
 			Test-Path -Path $logDirectory -PathType Container | Should -Be $true
 		}
