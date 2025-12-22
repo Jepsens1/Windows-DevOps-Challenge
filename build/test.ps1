@@ -44,6 +44,6 @@ if (-not (Test-Path $projectDir))
 
 # Test project with the provided verbosity and configuration
 Write-Host -ForegroundColor Blue "### Perform unit test on $($projectName) ###"
-dotnet test $projectDir --logger trx --results-directory $outputDir --configuration $Configuration --verbosity $verbosity
+dotnet test $projectDir --logger "trx;LogFileName=unitResults.trx" --results-directory $outputDir --configuration $Configuration --verbosity $verbosity
 
 Write-Host -ForegroundColor Green "### Done unit test###"
