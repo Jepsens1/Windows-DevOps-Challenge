@@ -9,7 +9,7 @@ Validates project existence and runs `dotnet test` with the specified configurat
 Test configuration to use: `Debug` or `Release`.
 
 .PARAMETER ProjectName
-Name of the project directory (for example `App.Test`) containing the tests.
+Name of the project (for example `App.Test/App.Test.csproj`) containing the tests.
 
 .PARAMETER OutputDirectory
 Directory to store test results (default `logs`).
@@ -19,7 +19,7 @@ Switch to enable detailed dotnet CLI verbosity for tests.
 
 .EXAMPLE
 .
-\build\test.ps1 -Configuration Debug -ProjectName App.Test -OutputDirectory logs
+\build\test.ps1 -Configuration Release -ProjectName App.Test/App.Test.csproj
 
 .NOTES
 Requires PowerShell 7+ and dotnet SDK installed.

@@ -10,7 +10,7 @@ with the provided configuration and verbosity. The published output is placed in
 Build configuration to use: `Debug` or `Release`.
 
 .PARAMETER ProjectName
-Name of the project directory (for example `App.Api`) to build and publish.
+Name of the project (for example `App.Api/app.csproj`) to build and publish.
 
 .PARAMETER OutputDirectory
 Directory to place published artifacts (created under repository root if absent). Default: `dist`.
@@ -20,7 +20,7 @@ Switch to enable detailed dotnet CLI verbosity.
 
 .EXAMPLE
 .
-\build\build.ps1 -Configuration Release -ProjectName App.Api -OutputDirectory dist
+\build\build.ps1 -Configuration Release -ProjectName App.Api/app.csproj
 
 .NOTES
 Requires PowerShell 7+ and require administrative privileges depending on environment.

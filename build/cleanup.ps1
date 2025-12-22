@@ -3,7 +3,7 @@
 Stops and removes a Windows service (if present) and cleans the working tree.
 
 .DESCRIPTION
-Stops the specified Windows service and removes it from the system. Afterwards, performs a destructive `git clean -ffdx` 
+Stops the specified Windows service and removes it from the system. Afterwards, performs a destructive `git clean -ffdx`
 To remove untracked files and directories so the repository is in a clean state.
 
 .PARAMETER ServiceName

@@ -8,7 +8,7 @@ Removes any existing service with the same name, creates a new Windows service p
 The service's binary path includes a `--log-dir` argument to point logs to the repository `logs` folder.
 
 .PARAMETER ServiceFile
-Name of the executable or DLL to run as a service (e.g., `App.Api.exe`).
+Name of the executable or DLL to run as a service (e.g., `app.exe`).
 
 .PARAMETER OutputDirectory
 Directory where the service binary resides (default `dist`).
